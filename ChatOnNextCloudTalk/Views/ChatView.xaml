@@ -1,0 +1,262 @@
+﻿<Window x:Class="ChatOnNextCloudTalk.Views.ChatView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChatOnNextCloudTalk.Views"
+        mc:Ignorable="d"
+        xmlns:converters="clr-namespace:ChatOnNextCloudTalk.Converters"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+        SizeChanged="Window_SizeChanged"
+        MinWidth="650"
+        MinHeight="500"
+        ResizeMode="CanResizeWithGrip"
+        AllowsTransparency="True"
+        BorderThickness="0"
+        WindowStyle="None"
+        Title="ChatView">
+    
+    <Window.Background>
+        <SolidColorBrush Color="#000D2D"
+                         Opacity="0.3"/>
+    </Window.Background>
+
+    <Window.Resources>
+        <converters:ColorConverter x:Key="ColorConverter"/>
+        <converters:AlignmentConverter x:Key="AlignmentConverter"/>
+        <converters:BitmapConverter x:Key="BitmapConverter"/>
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding SendMessageCMD}" Gesture="Enter" />
+    </Window.InputBindings>
+
+    <!--Main Grid-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="29"/>
+            <RowDefinition Height="59"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--TITLE BAR-->
+        <DockPanel MouseMove="TriggerMoveWindow" Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource NewBlue}" LastChildFill="True">
+
+            <!--Hide Window Button -->
+            <Button DockPanel.Dock="Right" Background="Transparent" BorderThickness="0" Height="29" Width="29" Padding="3,1,3,0" Click="buttonClose_Click">
+                <materialDesign:PackIcon Foreground="White"
+                            Kind="ArrowDownDropCircleOutline"
+                            Height="24"
+                            Width="24" />
+            </Button>
+
+            <!--Title of the Window -->
+            <Label Content="NextCloud Talk " Foreground="{StaticResource LightAccent}" FontFamily="Proxima Nova Alt Lt" FontSize="13" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+
+        </DockPanel>
+
+        <!--PROFILE BAR-->
+        <DockPanel Grid.Row="1" Grid.Column="0" Background="{StaticResource GrigioMedium}" LastChildFill="True">
+            <Image Source="{Binding UserInfo.Avatar, Converter={StaticResource BitmapConverter}}" Height="46" Width="46" DockPanel.Dock="Left" Margin="6,0"/>
+            <Rectangle DockPanel.Dock="Right" Height="59" Width="1" Fill="{StaticResource GrigioLight}"/>
+            <!-- Details (change avatar) not working-->
+            <!--<Button DockPanel.Dock="Right" Width="50" Height="50" Padding="2,0" BorderBrush="Transparent" Background="Transparent" Command="{Binding ShowMyDetailsCMD}">
+                <materialDesign:PackIcon Kind="MoreVert" Height="30" Width="30" Foreground="{StaticResource LightAccent}" />
+            </Button>-->
+            <TextBlock Text="{Binding Path=UserInfo.displayname}" DockPanel.Dock="Right" Foreground="{StaticResource LightAccent}" FontFamily="Proxima Nova Rg" FontSize="16" FontWeight="Bold" Margin="0,0,6,0" VerticalAlignment="Center"/>
+
+        </DockPanel>
+
+        <!--CONVERSATION INFO-->
+        <DockPanel Grid.Row="1" Grid.Column="1" Background="{StaticResource GrigioMedium}">
+            <Image Source="{Binding SelectedRoom.Avatar, Converter={StaticResource BitmapConverter}}" Height="46" Width="46" DockPanel.Dock="Left" Margin="6,0"/>
+            <DockPanel DockPanel.Dock="Left" VerticalAlignment="Center">
+                <TextBlock Text="{Binding SelectedRoom.displayName}" DockPanel.Dock="Top" Foreground="{StaticResource LightAccent}" FontFamily="Proxima Nova Rg" FontSize="16" FontWeight="Bold" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding SelectedRoom.UltimaAttivita}" DockPanel.Dock="Bottom" Foreground="{StaticResource LightAccent}" FontFamily="Proxima Nova Alt Lt" FontSize="11"  Margin="0,0,6,0" VerticalAlignment="Center"/>
+            </DockPanel>
+        </DockPanel>
+
+
+        <!--CONTACTS PANEL-->
+        <Grid Grid.Column="0" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="0" Background="{StaticResource GrigioLight}" Height="50">
+                <TextBox materialDesign:HintAssist.Hint="{DynamicResource searchbar}" Name="searchBar" Height="30" Background="#000D2D" Foreground="{StaticResource LightAccent}" Text="{Binding Path=SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Padding="7,0" BorderThickness="0" VerticalContentAlignment="Center"  FontFamily="Proxima Nova Alt Lt"/>
+            </DockPanel>
+
+            <!-- Contacts list -->
+            <Rectangle Grid.Row="1" Fill="{StaticResource GrigioClear}"/>
+
+            <!-- Contacts list showing on search -->
+            <DockPanel Grid.Row="1" LastChildFill="True">
+                <Button DockPanel.Dock="Top" Width="30" Padding="4" HorizontalAlignment="Left" Background="Transparent" BorderBrush="Transparent" Command="{Binding HideContactsCMD}">
+                    <materialDesign:PackIcon
+                        Foreground="{StaticResource NewBlue}"
+                            Kind="ArrowBack"
+                            Height="24"
+                            Width="24" />
+                </Button>
+                <ListView Grid.Row="1"
+                      ItemsSource="{Binding Contacts}" 
+                      Visibility="{Binding ContactsPanelVIS}" 
+                      Background="{StaticResource GrigioMedium}" 
+                       HorizontalContentAlignment="Stretch" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                      VerticalContentAlignment="Stretch" 
+                      DockPanel.Dock="Top" 
+                      SelectedItem="{Binding SelectedContact, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Grid Margin="-7">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="72"/>
+                                    <RowDefinition Height="1"/>
+                                </Grid.RowDefinitions>
+
+                                <DockPanel Grid.Row="0" LastChildFill="True" Background="{StaticResource GrigioClear }">
+                                    <Image Source="{Binding Avatar, Converter={StaticResource BitmapConverter}}" Height="46" Width="46" DockPanel.Dock="Left" Margin="6,0"/>
+
+                                    <DockPanel LastChildFill="True" DockPanel.Dock="Left" VerticalAlignment="Center">
+                                        <TextBlock Foreground="{StaticResource NewBlue}" Text="{Binding Path=label}" DockPanel.Dock="Top" FontFamily="Proxima Nova Rg" FontSize="14"/>
+                                        <TextBlock Text="{Binding Path=lastMessage.message}" DockPanel.Dock="Top" FontFamily="Proxima Nova Rg" TextTrimming="WordEllipsis" HorizontalAlignment="Left" FontSize="12" Margin="0,7,0,0"/>
+                                    </DockPanel>
+                                </DockPanel>
+
+                                <Rectangle Grid.Row="1" Fill="{StaticResource GrigioMedium}"/>
+
+                            </Grid>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </DockPanel>
+            <!-- Rooms list -->
+            <ListView Grid.Row="1" 
+                      SelectionChanged="ListView_SelectionChanged"
+                      Background="{StaticResource GrigioClear}" 
+                      Visibility="{Binding RoomsPanelVIS}" 
+                      HorizontalContentAlignment="Stretch" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                      VerticalContentAlignment="Stretch" 
+                      DockPanel.Dock="Top" 
+                      ItemsSource="{Binding Rooms}" 
+                      SelectedItem="{Binding SelectedRoom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Grid Margin="-7">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="72"/>
+                                <RowDefinition Height="1"/>
+                            </Grid.RowDefinitions>
+
+                            <DockPanel Grid.Row="0" LastChildFill="True" Background="{StaticResource GrigioClear }">
+                                <Image Source="{Binding Avatar, Converter={StaticResource BitmapConverter}}" Height="46" Width="46" DockPanel.Dock="Left" Margin="6,0"/>
+
+                                <TextBlock Text="{Binding Path=UltimoMessaggio}" DockPanel.Dock="Right" FontFamily="Proxima Nova Alt Lt" FontSize="11"  Margin="0,0,6,0" VerticalAlignment="Center"/>
+
+                                <DockPanel LastChildFill="True" DockPanel.Dock="Left" VerticalAlignment="Center">
+                                    <TextBlock Name="displayName" Foreground="{StaticResource NewBlue}" Text="{Binding Path=displayName}" DockPanel.Dock="Top" FontFamily="Proxima Nova Rg" FontSize="14"/>
+                                    <TextBlock Name="lastMessage" Text="{Binding Path=lastMessage.message}" DockPanel.Dock="Top" FontFamily="Proxima Nova Rg" TextTrimming="WordEllipsis" HorizontalAlignment="Left" FontSize="12" Margin="0,7,0,0"/>
+                                </DockPanel>
+
+                            </DockPanel>
+
+                            <Rectangle Grid.Row="1" Fill="{StaticResource GrigioClear}"/>
+
+                        </Grid>
+
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=HasUnreadMessages}" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource verdeVega}" TargetName="displayName"/>
+                                <Setter Property="Foreground" Value="{StaticResource verdeVega}" TargetName="lastMessage"/>
+                                <Setter Property="FontSize" Value="18" TargetName="displayName"/>
+                                <Setter Property="FontSize" Value="14" TargetName="lastMessage"/>
+                                <Setter Property="FontWeight" Value="Bold" TargetName="displayName"/>
+                                <Setter Property="FontWeight" Value="Bold" TargetName="lastMessage"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+        </Grid>
+
+
+        <!--CONVERSATION PANEL-->
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="62"/>
+            </Grid.RowDefinitions>
+
+            <ScrollViewer Name="MessageScrollViewer"  Grid.Row="0">
+                <!--Messages of the conversation-->
+                <ItemsControl ItemsSource="{Binding Chats}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Card Margin="20,10" Name="materialCard" MaxWidth="250" HorizontalAlignment="{Binding MessageAlignment, Converter={StaticResource AlignmentConverter}}" Background="{Binding ColoreSfondo, Converter={StaticResource ColorConverter}}">
+                                <DockPanel LastChildFill="True">
+                                    <emoji:TextBlock  DockPanel.Dock="Top"
+                                        Background="Transparent"
+                                        Foreground="{StaticResource LightAccent}"
+                                        FontSize="15"
+                                        Text="{Binding message}"
+                                        FontFamily="Proxima Nova Alt Lt"
+                                        Margin="10,10,10,3"
+                                        TextWrapping="WrapWithOverflow"/>
+                                    <TextBlock HorizontalAlignment="Right"
+                                        Background="Transparent"
+                                        Text="{Binding Orario}"
+                                               FontFamily="Proxima Nova Alt Lt"
+                                        Foreground="{StaticResource LightAccent}"
+                                        FontSize="10"
+                                        Margin="10,3,10,10"/>
+                                </DockPanel>
+                            </materialDesign:Card>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+
+                    </ItemsControl.ItemsPanel>
+
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!--Message bar-->
+            <DockPanel Grid.Row="1" Grid.Column="1" Background="{StaticResource GrigioLight}" LastChildFill="True">
+                <Button DockPanel.Dock="Right" Command="{Binding SendMessageCMD}" Background="Transparent" BorderThickness="0" Height="29" Width="29" Padding="3,1,3,0" Margin="0,0,5,0">
+                    <materialDesign:PackIcon
+                            Kind="Send"
+                            Height="24"
+                            Width="24" />
+                </Button>
+                <!--<Button DockPanel.Dock="Left" Background="Transparent" BorderThickness="0" Height="29" Width="29" Padding="3,1,3,0" Margin="5,0,0,0">
+                    <materialDesign:PackIcon
+                            Kind="Emoticon"
+                            Height="24"
+                            Width="24" />
+                </Button>-->
+
+                <TextBox materialDesign:HintAssist.Hint="{DynamicResource messagebar}" Name="messageBar"  Height="30" Background="#000D2D" Foreground="{StaticResource LightAccent}" Text="{Binding Path=MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="15,0,5,0" Padding="7,0" VerticalContentAlignment="Center"  FontFamily="Proxima Nova Alt Lt" BorderThickness="0" DockPanel.Dock="Top"/>
+            </DockPanel>
+
+        </Grid>
+
+    </Grid>
+</Window>

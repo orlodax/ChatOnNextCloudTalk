@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ChatOnNextCloudTalk"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- main window -->
+    <system:String x:Key="login">LOGIN</system:String>
+    <system:String x:Key="savePassword">Save password</system:String>
+
+    <!-- chatview -->
+    <system:String x:Key="searchbar">Search...</system:String>
+    <system:String x:Key="messagebar">Type a message</system:String>
+
+    <!-- message boxes-->
+    <!-- MainWindowVM.cs -->
+    <!-- if User == null -->
+    <system:String x:Key="mb3Text">Account not found. Please check your Login parameters.</system:String>
+    <system:String x:Key="mb3Title">Error</system:String>
+   
+    <!-- avatar details -->
+    <system:String x:Key="avatarTitle">Profile picture</system:String>
+    <system:String x:Key="loadButton">Select a picture...</system:String>
+    <system:String x:Key="delButton">Delete picture</system:String>
+    <!-- vm -->
+    <system:String x:Key="dialogTitle">Load picture</system:String>
+
+    <!-- GENERICS -->
+    <system:String x:Key="cancelButton">Cancel</system:String>
+
+</ResourceDictionary>

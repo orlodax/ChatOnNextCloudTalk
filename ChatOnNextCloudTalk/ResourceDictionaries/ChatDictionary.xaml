@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ChatOnNextCloudTalk">
+
+    <SolidColorBrush x:Key="grigioAzienda" Color="#2B2A29"/>
+    <SolidColorBrush x:Key="verdeVega" Color="#055365"/>
+    <SolidColorBrush x:Key="GrigioClear" Color="#b8b8d1"/>
+    <SolidColorBrush x:Key="GrigioLight" Color="#909b9b"/>
+    <SolidColorBrush x:Key="GrigioMedium" Color="#7a82ab"/>
+    <SolidColorBrush x:Key="NewBlue" Color="#074A91"/>
+    <SolidColorBrush x:Key="LightAccent" Color="#EEEEEE"/>
+
+</ResourceDictionary>
