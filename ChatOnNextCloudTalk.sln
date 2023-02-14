@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29503.13
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatOnNextCloudTalk", "ChatOnNextCloudTalk\ChatOnNextCloudTalk.csproj", "{35544B97-31FA-464D-AB62-0ABFEFA68295}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NextCloudAPI", "..\orlodax\NextCloud-Spreed-API\NextCloudAPI.csproj", "{EF149C80-FDFD-4D2D-8BC8-9084D685D1C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NextCloudAPI", "..\NextCloud-Spreed-API\NextCloudAPI.csproj", "{7BDDDBB3-4B29-4FAC-8792-19B12907487C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{35544B97-31FA-464D-AB62-0ABFEFA68295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35544B97-31FA-464D-AB62-0ABFEFA68295}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35544B97-31FA-464D-AB62-0ABFEFA68295}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF149C80-FDFD-4D2D-8BC8-9084D685D1C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF149C80-FDFD-4D2D-8BC8-9084D685D1C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF149C80-FDFD-4D2D-8BC8-9084D685D1C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF149C80-FDFD-4D2D-8BC8-9084D685D1C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BDDDBB3-4B29-4FAC-8792-19B12907487C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BDDDBB3-4B29-4FAC-8792-19B12907487C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BDDDBB3-4B29-4FAC-8792-19B12907487C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BDDDBB3-4B29-4FAC-8792-19B12907487C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
